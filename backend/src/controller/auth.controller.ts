@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { AuthService, type RegisterDTO, type LoginDTO } from '../service/auth.service';
-import type { ValidatedRequest } from '../middleware/validate.middleware';
-import type { AuthenticatedRequest } from '../middleware/auth.middleware';
+import { AuthService, type RegisterDTO, type LoginDTO } from '../service/auth.service.js';
+import type { ValidatedRequest } from '../middleware/validate.middleware.js';
+import type { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 
 const authService = new AuthService();
 
