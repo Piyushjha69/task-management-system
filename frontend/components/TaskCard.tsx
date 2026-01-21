@@ -12,48 +12,51 @@ type Props = {
 const statusConfig = {
   PENDING: {
     label: "Pending",
-    className: "bg-amber-100 text-amber-800 border-amber-200",
+    className: "text-neutral-500",
   },
   IN_PROGRESS: {
     label: "In Progress",
-    className: "bg-blue-100 text-blue-800 border-blue-200",
+    className: "text-neutral-400",
   },
   COMPLETED: {
-    label: "Completed",
-    className: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    label: "Done",
+    className: "text-neutral-600 line-through",
   },
 };
 
 export default function TaskCard({ task, onToggle, onDelete, onEdit }: Props) {
   const status = statusConfig[task.status] || statusConfig.PENDING;
+  const isCompleted = task.status === "COMPLETED";
 
   return (
-    <div className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex justify-between items-center gap-4">
+    <div className="bg-neutral-900 border border-neutral-800 px-4 py-3 rounded-lg flex justify-between items-center gap-4 hover:border-neutral-700 transition-colors">
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-gray-800 truncate">{task.title}</p>
-        <span className={`inline-block mt-1 px-2.5 py-0.5 text-xs font-medium rounded-full border ${status.className}`}>
+        <p className={`text-neutral-100 truncate ${isCompleted ? "line-through text-neutral-500" : ""}`}>
+          {task.title}
+        </p>
+        <span className={`text-xs ${status.className}`}>
           {status.label}
         </span>
       </div>
 
-      <div className="flex gap-2 flex-shrink-0">
+      <div className="flex gap-1 flex-shrink-0">
         <button
           onClick={() => onEdit(task)}
-          className="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200"
+          className="text-neutral-500 hover:text-neutral-300 px-2 py-1 text-sm transition-colors"
         >
           Edit
         </button>
 
         <button
           onClick={() => onToggle(task.id)}
-          className="bg-purple-50 hover:bg-purple-100 text-purple-600 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200"
+          className="text-neutral-500 hover:text-neutral-300 px-2 py-1 text-sm transition-colors"
         >
           Toggle
         </button>
 
         <button
           onClick={() => onDelete(task.id)}
-          className="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200"
+          className="text-neutral-500 hover:text-red-400 px-2 py-1 text-sm transition-colors"
         >
           Delete
         </button>

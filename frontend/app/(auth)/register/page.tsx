@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/lib/useAuth";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -56,14 +57,10 @@ export default function RegisterPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Register failed");
 
-      toast.success("Registration successful!", {
-        description: "Please login with your credentials.",
-      });
+      toast.success("Registration successful!");
       router.push("/login");
     } catch (err: any) {
-      toast.error("Registration failed", {
-        description: err.message,
-      });
+      toast.error(err.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -71,87 +68,94 @@ export default function RegisterPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+        <div className="w-5 h-5 border-2 border-neutral-700 border-t-neutral-400 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100">
-      <form
-        onSubmit={handleRegister}
-        className="w-full max-w-sm bg-white shadow-lg p-6 rounded-xl border border-gray-200"
-      >
-        <h1 className="text-2xl font-bold mb-4 text-gray-800">Register</h1>
+    <div className="min-h-screen bg-neutral-950 flex flex-col px-6 py-8">
+      <header className="max-w-sm mx-auto w-full">
+        <Link href="/" className="text-neutral-500 text-sm hover:text-neutral-300 transition-colors">
+          &larr; Back
+        </Link>
+      </header>
 
-        <div className="mb-3">
-          <input
-            className={`w-full border p-3 rounded-lg text-gray-800 outline-none transition-all duration-200 focus:ring-2 focus:ring-indigo-500 ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              if (errors.name) setErrors({ ...errors, name: undefined });
-            }}
-          />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-          )}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-sm">
+          <h1 className="text-2xl font-semibold text-neutral-100 mb-8">Create account</h1>
+
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <input
+                className={`w-full bg-neutral-900 border px-4 py-3 rounded-lg text-neutral-100 placeholder-neutral-600 outline-none transition-colors ${
+                  errors.name ? "border-red-500/50" : "border-neutral-800 focus:border-neutral-700"
+                }`}
+                placeholder="Name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (errors.name) setErrors({ ...errors, name: undefined });
+                }}
+              />
+              {errors.name && (
+                <p className="text-red-400 text-xs mt-1.5">{errors.name}</p>
+              )}
+            </div>
+
+            <div>
+              <input
+                className={`w-full bg-neutral-900 border px-4 py-3 rounded-lg text-neutral-100 placeholder-neutral-600 outline-none transition-colors ${
+                  errors.email ? "border-red-500/50" : "border-neutral-800 focus:border-neutral-700"
+                }`}
+                placeholder="Email"
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errors.email) setErrors({ ...errors, email: undefined });
+                }}
+              />
+              {errors.email && (
+                <p className="text-red-400 text-xs mt-1.5">{errors.email}</p>
+              )}
+            </div>
+
+            <div>
+              <input
+                className={`w-full bg-neutral-900 border px-4 py-3 rounded-lg text-neutral-100 placeholder-neutral-600 outline-none transition-colors ${
+                  errors.password ? "border-red-500/50" : "border-neutral-800 focus:border-neutral-700"
+                }`}
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errors.password) setErrors({ ...errors, password: undefined });
+                }}
+              />
+              {errors.password && (
+                <p className="text-red-400 text-xs mt-1.5">{errors.password}</p>
+              )}
+            </div>
+
+            <button
+              disabled={loading}
+              className="w-full bg-neutral-100 text-neutral-900 py-3 rounded-lg font-medium hover:bg-white disabled:opacity-50 transition-colors"
+            >
+              {loading ? "Creating account..." : "Create account"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-sm text-neutral-500 text-center">
+            Already have an account?{" "}
+            <Link href="/login" className="text-neutral-300 hover:text-white transition-colors">
+              Sign in
+            </Link>
+          </p>
         </div>
-
-        <div className="mb-3">
-          <input
-            className={`w-full border p-3 rounded-lg text-gray-800 outline-none transition-all duration-200 focus:ring-2 focus:ring-indigo-500 ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Email"
-            type="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (errors.email) setErrors({ ...errors, email: undefined });
-            }}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <input
-            className={`w-full border p-3 rounded-lg text-gray-800 outline-none transition-all duration-200 focus:ring-2 focus:ring-indigo-500 ${
-              errors.password ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              if (errors.password) setErrors({ ...errors, password: undefined });
-            }}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-          )}
-        </div>
-
-        <button
-          disabled={loading}
-          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white p-3 rounded-lg font-medium disabled:opacity-50 transition-all duration-200"
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
-
-        <p className="mt-4 text-sm text-gray-600 text-center">
-          Already have an account?{" "}
-          <a className="text-indigo-600 hover:underline font-medium" href="/login">
-            Login
-          </a>
-        </p>
-      </form>
+      </div>
     </div>
   );
 }

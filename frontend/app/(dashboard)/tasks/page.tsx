@@ -35,18 +35,14 @@ export default function TasksPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error("Failed to load tasks", {
-          description: data.message || "Please try again",
-        });
+        toast.error(data.message || "Failed to load tasks");
         return;
       }
 
       setTasks(data.tasks);
       setTotalPages(data.totalPages);
     } catch (error: any) {
-      toast.error("Error loading tasks", {
-        description: error.message,
-      });
+      toast.error(error.message || "Error loading tasks");
     } finally {
       setIsLoadingTasks(false);
     }
@@ -72,20 +68,14 @@ export default function TasksPage() {
 
       const result = await res.json();
       if (!res.ok) {
-        toast.error("Failed to add task", {
-          description: result.message || "Please try again",
-        });
+        toast.error(result.message || "Failed to add task");
         return;
       }
 
-      toast.success("Task created!", {
-        description: `"${data.title}" has been added.`,
-      });
+      toast.success("Task created");
       fetchTasks();
     } catch (error: any) {
-      toast.error("Error adding task", {
-        description: error.message,
-      });
+      toast.error(error.message || "Error adding task");
     }
   }
 
@@ -100,21 +90,15 @@ export default function TasksPage() {
 
       const result = await res.json();
       if (!res.ok) {
-        toast.error("Failed to update task", {
-          description: result.message || "Please try again",
-        });
+        toast.error(result.message || "Failed to update task");
         return;
       }
 
-      toast.success("Task updated!", {
-        description: `"${data.title}" has been updated.`,
-      });
+      toast.success("Task updated");
       setEditingTask(null);
       fetchTasks();
     } catch (error: any) {
-      toast.error("Error updating task", {
-        description: error.message,
-      });
+      toast.error(error.message || "Error updating task");
     }
   }
 
@@ -122,15 +106,13 @@ export default function TasksPage() {
     try {
       const res = await apiFetch(`/tasks/${id}/toggle`, { method: "PATCH" });
       if (!res.ok) {
-        toast.error("Failed to toggle task status");
+        toast.error("Failed to toggle status");
         return;
       }
-      toast.success("Task status toggled!");
+      toast.success("Status updated");
       fetchTasks();
     } catch (error: any) {
-      toast.error("Error toggling task", {
-        description: error.message,
-      });
+      toast.error(error.message || "Error toggling task");
     }
   }
 
@@ -141,61 +123,49 @@ export default function TasksPage() {
         toast.error("Failed to delete task");
         return;
       }
-      toast.success("Task deleted!", {
-        description: "The task has been removed.",
-      });
+      toast.success("Task deleted");
       fetchTasks();
     } catch (error: any) {
-      toast.error("Error deleting task", {
-        description: error.message,
-      });
+      toast.error(error.message || "Error deleting task");
     }
   }
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+        <div className="w-5 h-5 border-2 border-neutral-700 border-t-neutral-400 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-neutral-950">
       <Navbar />
 
-      <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <div className="max-w-2xl mx-auto px-6 py-8 space-y-6">
         {/* Filters */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-          <div className="flex gap-3 flex-wrap">
-            <input
-              className="flex-1 min-w-[200px] border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200"
-              placeholder="🔍 Search tasks..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        <div className="flex gap-3 flex-wrap">
+          <input
+            className="flex-1 min-w-[180px] bg-neutral-900 border border-neutral-800 px-4 py-2.5 rounded-lg text-neutral-100 placeholder-neutral-600 outline-none focus:border-neutral-700 transition-colors"
+            placeholder="Search tasks..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
 
-            <button
-              onClick={handleSearch}
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-5 py-3 rounded-lg font-medium transition-all duration-200 shadow-sm"
-            >
-              Search
-            </button>
-
-            <select
-              className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white min-w-[140px]"
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value as any);
-                setPage(1);
-              }}
-            >
-              <option value="">All Status</option>
-              <option value="PENDING">🟡 Pending</option>
-              <option value="IN_PROGRESS">🔵 In Progress</option>
-              <option value="COMPLETED">🟢 Completed</option>
-            </select>
-          </div>
+          <select
+            className="bg-neutral-900 border border-neutral-800 text-neutral-300 px-4 py-2.5 rounded-lg outline-none focus:border-neutral-700 transition-colors"
+            value={status}
+            onChange={(e) => {
+              setStatus(e.target.value as any);
+              setPage(1);
+            }}
+          >
+            <option value="">All</option>
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
+          </select>
         </div>
 
         {/* Add/Edit Form */}
@@ -219,27 +189,29 @@ export default function TasksPage() {
         />
 
         {/* Pagination */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
-          <button
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-          >
-            ← Previous
-          </button>
+        {totalPages > 1 && (
+          <div className="flex justify-between items-center pt-2">
+            <button
+              disabled={page <= 1}
+              onClick={() => setPage((p) => p - 1)}
+              className="text-sm text-neutral-400 hover:text-neutral-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              &larr; Previous
+            </button>
 
-          <p className="text-gray-600 font-medium">
-            Page <span className="text-indigo-600">{page}</span> of <span className="text-indigo-600">{totalPages}</span>
-          </p>
+            <span className="text-neutral-500 text-sm">
+              {page} / {totalPages}
+            </span>
 
-          <button
-            disabled={page >= totalPages}
-            onClick={() => setPage((p) => p + 1)}
-            className="border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-          >
-            Next →
-          </button>
-        </div>
+            <button
+              disabled={page >= totalPages}
+              onClick={() => setPage((p) => p + 1)}
+              className="text-sm text-neutral-400 hover:text-neutral-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              Next &rarr;
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

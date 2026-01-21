@@ -14,9 +14,8 @@ type Props = {
 export default function TaskList({ tasks, onToggle, onDelete, onEdit, isLoading }: Props) {
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600 mb-4"></div>
-        <p className="text-gray-500 font-medium">Loading tasks...</p>
+      <div className="flex items-center justify-center py-12">
+        <div className="w-5 h-5 border-2 border-neutral-700 border-t-neutral-400 rounded-full animate-spin" />
       </div>
     );
   }
@@ -24,15 +23,13 @@ export default function TaskList({ tasks, onToggle, onDelete, onEdit, isLoading 
   if (tasks.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="text-gray-400 text-5xl mb-3">📝</div>
-        <p className="text-gray-500 font-medium">No tasks found</p>
-        <p className="text-gray-400 text-sm mt-1">Create a new task to get started</p>
+        <p className="text-neutral-500">No tasks yet</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {tasks.map((task) => (
         <TaskCard
           key={task.id}

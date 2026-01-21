@@ -11,7 +11,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await apiFetch("/auth/logout", { method: "POST" });
-      toast.success("Logged out successfully!");
+      toast.success("Logged out");
     } catch (err) {
       console.error("Logout failed:", err);
     } finally {
@@ -21,15 +21,15 @@ export default function Navbar() {
   };
 
   return (
-    <div className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
-      <div className="max-w-3xl mx-auto flex justify-between items-center p-4">
-        <h1 className="font-bold text-xl text-white tracking-wide">📋 Task Manager</h1>
+    <div className="border-b border-neutral-800">
+      <div className="max-w-2xl mx-auto flex justify-between items-center px-6 py-4">
+        <span className="font-medium text-neutral-200">taskflow</span>
 
         <button
           onClick={handleLogout}
-          className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm border border-white/30"
+          className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors"
         >
-          Logout
+          Log out
         </button>
       </div>
     </div>

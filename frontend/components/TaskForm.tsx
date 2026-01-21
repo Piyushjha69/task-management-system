@@ -36,42 +36,38 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm">
-      <h2 className="font-semibold text-gray-800 text-lg mb-4">
-        {initialTask ? "✏️ Edit Task" : "➕ Add New Task"}
-      </h2>
-
-      <div className="space-y-3">
+    <form onSubmit={handleSubmit} className="bg-neutral-900 border border-neutral-800 p-4 rounded-lg">
+      <div className="flex gap-3 flex-wrap">
         <input
-          className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200"
-          placeholder="Enter task title..."
+          className="flex-1 min-w-[180px] bg-neutral-950 border border-neutral-800 px-4 py-2.5 rounded-lg text-neutral-100 placeholder-neutral-600 outline-none focus:border-neutral-700 transition-colors"
+          placeholder={initialTask ? "Edit task..." : "New task..."}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <select
-          className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white"
+          className="bg-neutral-950 border border-neutral-800 text-neutral-300 px-4 py-2.5 rounded-lg outline-none focus:border-neutral-700 transition-colors"
           value={status}
           onChange={(e) => setStatus(e.target.value as TaskStatus)}
         >
-          <option value="PENDING">🟡 Pending</option>
-          <option value="IN_PROGRESS">🔵 In Progress</option>
-          <option value="COMPLETED">🟢 Completed</option>
+          <option value="PENDING">Pending</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Completed</option>
         </select>
 
-        <div className="flex gap-2 pt-2">
+        <div className="flex gap-2">
           <button
             disabled={loading}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-5 py-2.5 rounded-lg font-medium disabled:opacity-50 transition-all duration-200 shadow-sm"
+            className="bg-neutral-100 text-neutral-900 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-white disabled:opacity-50 transition-colors"
           >
-            {loading ? "Saving..." : initialTask ? "Update Task" : "Add Task"}
+            {loading ? "Saving..." : initialTask ? "Update" : "Add"}
           </button>
 
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-lg font-medium transition-colors duration-200"
+              className="text-neutral-500 hover:text-neutral-300 px-3 py-2.5 text-sm transition-colors"
             >
               Cancel
             </button>
