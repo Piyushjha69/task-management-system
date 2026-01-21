@@ -6,17 +6,17 @@ import {
   getTasks,
   toggleTaskStatus,
   updateTask,
-} from "../controller/task.controller.js";
+} from "../controller/task.controller";
 
 import {
   CreateTaskSchema,
   TaskIdParamSchema,
   TaskListQuerySchema,
   UpdateTaskSchema,
-} from "../schemas/task.schema.js";
+} from "../schemas/task.schema";
 
-import { validateRequest } from "../middleware/validate.middleware.js";
-import { authenticateToken } from "../middleware/auth.middleware.js";
+import { validateRequest } from "../middleware/validate.middleware";
+import { authenticateToken } from "../middleware/auth.middleware";
 
 const router = express.Router();
 

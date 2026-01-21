@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { TaskService } from "../service/task.service.js";
+import { TaskService } from "../service/task.service";
 import {
     CreateTaskSchema,
     UpdateTaskSchema,
     TaskIdParamSchema,
     TaskListQuerySchema,
-} from "../schemas/task.schema.js";
+} from "../schemas/task.schema";
 
 const taskService = new TaskService();
 

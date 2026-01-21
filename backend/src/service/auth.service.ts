@@ -1,6 +1,6 @@
-import { PrismaClient } from '../generated/prisma/client.js';
-import { generateTokens, type JwtTokens } from '../utils/jwt.utils.js';
-import { hashPassword, comparePasswords } from '../utils/password.utils.js';
+import { PrismaClient } from '../generated/prisma/client';
+import { generateTokens, type JwtTokens } from '../utils/jwt.utils';
+import { hashPassword, comparePasswords } from '../utils/password.utils';
 
 const prisma = new PrismaClient();
 
@@ -88,7 +88,7 @@ export class AuthService {
   }
 
   async refreshAccessToken(refreshToken: string): Promise<JwtTokens> {
-    const { verifyRefreshToken } = await import('../utils/jwt.utils.js');
+    const { verifyRefreshToken } = await import('../utils/jwt.utils');
     
     const payload = verifyRefreshToken(refreshToken);
     if (!payload) {
