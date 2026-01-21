@@ -1,0 +1,62 @@
+# =========================
+# Common
+# =========================
+.env
+.env.*
+*.log
+logs/
+tmp/
+temp/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# =========================
+# Node / Backend / Frontend
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+
+# =========================
+# React / Vite / Next.js
+# =========================
+.vite/
+.next/
+.vercel/
+
+# =========================
+# Backend Specific
+# =========================
+coverage/
+
+# =========================
+# Database / Uploads
+# =========================
+uploads/
+database.sqlite
+*.sqlite
+*.db
+
+# =========================
+# Secrets / Keys
+# =========================
+*.pem
+*.key
+*.crt
+
+# =========================
+# Cache
+# =========================
+.cache/
+.eslintcache
